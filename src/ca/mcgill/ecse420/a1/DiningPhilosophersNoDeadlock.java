@@ -2,8 +2,11 @@ package ca.mcgill.ecse420.a1;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class DiningPhilosophers {
+public class DiningPhilosophersNoDeadlock {
+
+    public static ReentrantLock global = new ReentrantLock();
 
     public static void main(String[] args) {
         int numberOfPhilosophers = 5;
@@ -45,10 +48,14 @@ public class DiningPhilosophers {
                 while (true) {
                     doAction("thinking");
                     System.out.println("Philosopher " + (i+1) + " is hungry!");
+                    global.lock();
                     synchronized (leftChopstick) {
                         doAction("picked up left chopstick");
                         synchronized (rightChopstick) {
                             doAction("picked up right chopstick");
+
+                            global.unlock();
+
                             doAction("eating");
                         }
                         doAction("put down right chopstick");
