@@ -9,11 +9,14 @@ public class MatrixMultiplication {
     private static final int MATRIX_SIZE = 2000;
 
     public static void main(String[] args) {
+    	// To run question 1.4 vs question 1.5, uncomment the respective piece of code in this main method
+    	
         /*
         // Question 1.4
         double[][] a = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
         double[][] b = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
 
+		// Setting a max of 10 threads
         for (int i = 1 ; i <= 10 ; i++) {
           NUMBER_THREADS = i;
           measureExecutionTime(a, b, "parallel");
@@ -70,9 +73,10 @@ public class MatrixMultiplication {
     public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) {
 
         double[][] result = new double[b.length][a[0].length];
-
+        
+        // Starts a new thread pool 
         ExecutorService executor = Executors.newFixedThreadPool(NUMBER_THREADS);
-
+        
         for (int i = 0; i < b.length; i++) {
             for (int j = 0; j < a[0].length; j++) {
                 executor.execute((new MatrixMultiplicationParallel(a, b, result, i, j, a.length)));
@@ -101,16 +105,16 @@ public class MatrixMultiplication {
         private double result;
         private double[][] matrixA;
         private double[][] matrixB;
-        private double[][] matrixC;
+        private double[][] resultMatrix;
 
         public MatrixMultiplicationParallel(double[][] matrixA, double[][] matrixB,
-            double[][] matrixC, int row, int column, int size) {
+            double[][] resultMatrix, int row, int column, int size) {
             this.row = row;
             this.column = column;
             this.size = size;
             this.matrixA = matrixA;
             this.matrixB = matrixB;
-            this.matrixC = matrixC;
+            this.resultMatrix = resultMatrix;
         }
 
         public void run() {
@@ -119,7 +123,7 @@ public class MatrixMultiplication {
             for (int k = 0; k < this.size; k++) { //iteration
                 result += matrixA[row][k] * matrixB[k][column];
             }
-            matrixC[row][column] = result;
+            resultMatrix[row][column] = result;
         }
     }
 
