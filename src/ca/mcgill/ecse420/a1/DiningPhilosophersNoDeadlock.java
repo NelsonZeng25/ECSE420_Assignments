@@ -22,7 +22,8 @@ public class DiningPhilosophersNoDeadlock {
 
         // Initialize philosopher runnable tasks and execute them
         for (int i = 0; i < numberOfPhilosophers; i++) {
-            philosophers[i] = new Philosopher(i, chopsticks[i], chopsticks[(i + 1) % numberOfPhilosophers]);
+            philosophers[i] =
+                new Philosopher(i, chopsticks[i], chopsticks[(i + 1) % numberOfPhilosophers]);
             executor.execute(philosophers[i]);
         }
 
@@ -45,10 +46,11 @@ public class DiningPhilosophersNoDeadlock {
         /**
          * This method sleeps for random amount of time to simulate the time it takes to
          * performing a task as a philosopher
+         *
          * @param action - The action the philosopher does
          */
         private void doAction(String action) throws InterruptedException {
-            System.out.println("Philosopher " + (id +1) + " " + action);
+            System.out.println("Philosopher " + (id + 1) + " " + action);
             Thread.sleep(((int) (Math.random() * 100)));
         }
 
@@ -63,7 +65,7 @@ public class DiningPhilosophersNoDeadlock {
             try {
                 while (true) {
                     doAction("thinking");
-                    System.out.println("Philosopher " + (id +1) + " is hungry!");
+                    System.out.println("Philosopher " + (id + 1) + " is hungry!");
                     global.lock();
                     synchronized (leftChopstick) {
                         doAction("picked up left chopstick");

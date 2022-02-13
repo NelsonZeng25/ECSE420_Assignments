@@ -9,14 +9,14 @@ public class MatrixMultiplication {
     private static final int MATRIX_SIZE = 2000;
 
     public static void main(String[] args) {
-    	// To run question 1.4 vs question 1.5, uncomment the respective piece of code in this main method
+        // To run question 1.4 vs question 1.5, uncomment the respective piece of code in this main method
     	
         /*
         // Question 1.4
         double[][] a = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
         double[][] b = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
 
-		// Setting a max of 10 threads
+		    // Setting a max of 10 threads
         for (int i = 1 ; i <= 10 ; i++) {
           NUMBER_THREADS = i;
           measureExecutionTime(a, b, "parallel");
@@ -73,10 +73,10 @@ public class MatrixMultiplication {
     public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) {
 
         double[][] result = new double[b.length][a[0].length];
-        
+
         // Starts a new thread pool 
         ExecutorService executor = Executors.newFixedThreadPool(NUMBER_THREADS);
-        
+
         for (int i = 0; i < b.length; i++) {
             for (int j = 0; j < a[0].length; j++) {
                 executor.execute((new MatrixMultiplicationParallel(a, b, result, i, j, a.length)));
