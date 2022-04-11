@@ -6,7 +6,7 @@ import java.util.concurrent.*;
 
 public class MatrixMultiplicationParallel {
 
-    public static final int THRESHOLD = 2;
+    public static final int THRESHOLD = 500;
 
     public static class MatrixAddTask implements Runnable {
         Matrix lhs, rhs, sum;
@@ -25,11 +25,9 @@ public class MatrixMultiplicationParallel {
             if (n <= THRESHOLD) {
                 sum.add(lhs, rhs);
             } else {
-                List<Future<?>> tasks = new ArrayList<>(4);
+                List<Future<?>> tasks = new ArrayList<>(2);
                 for (int i = 0; i < 2; i++) {
-                    for (int j = 0; j < 2; j++) {
-                        tasks.add(executorService.submit(new MatrixAddTask(lhs.split(i, j), rhs.split(i, j), sum.split(i, j), executorService)));
-                    }
+                    tasks.add(executorService.submit(new MatrixAddTask(lhs.split(i, 0), rhs.split(i, 0), sum.split(i, 0), executorService)));
                 }
 
                 tasks.forEach(task -> {
@@ -57,17 +55,14 @@ public class MatrixMultiplicationParallel {
 
         @Override public void run() {
             int n = lhs.n;
-            // System.out.println("Size: " + lhs.n);
             if (n <= THRESHOLD) {
                 product.multiply(lhs, rhs);
             } else {
-                List<Future<?>> tasks = new ArrayList<>(8);
+                List<Future<?>> tasks = new ArrayList<>(4);
                 Matrix[] term = new Matrix[] { new Matrix(n, rhs.m), new Matrix(n, rhs.m) };
                 for (int i = 0; i < 2; i++) {
                     for (int j = 0; j < 2; j++) {
-                        for (int k = 0; k < 2; k++) {
-                            tasks.add(executorService.submit(new MatrixMulTask(lhs.split(j, i), rhs.split(i, k), term[i].split(j, k), executorService)));
-                        }
+                        tasks.add(executorService.submit(new MatrixMulTask(lhs.split(j, i), rhs.split(i, 0), term[i].split(j, 0), executorService)));
                     }
                 }
 

@@ -17,7 +17,7 @@ public class MatrixMultiplicationTest {
 
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        int matrixSize = 10;
+        int matrixSize = 2000;
 
         double[][] randomMatrix = generateRandomMatrix(matrixSize,matrixSize);
         double[][] randomVec = generateRandomMatrix(matrixSize,1);
@@ -25,9 +25,6 @@ public class MatrixMultiplicationTest {
         Matrix matrix = new Matrix(matrixSize, matrixSize, randomMatrix);
         Matrix vector = new Matrix(matrixSize, 1, randomVec);
         Matrix result = new Matrix(matrixSize, 1);
-
-        System.out.println(matrix);
-        System.out.println(vector);
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -48,6 +45,6 @@ public class MatrixMultiplicationTest {
 
 //        System.out.println(matrix);
 //        System.out.println(vector);
-        System.out.println(result);
+//        System.out.println(result);
     }
 }
