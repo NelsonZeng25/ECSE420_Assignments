@@ -6,7 +6,7 @@ import java.util.concurrent.*;
 
 public class MatrixMultiplicationParallel {
 
-    public static final int THRESHOLD = 500;
+    public static final int THRESHOLD = 1000;        // Threshold of matrix size to decide when to run sequential method
 
     public static class MatrixAddTask implements Runnable {
         Matrix lhs, rhs, sum;
@@ -27,6 +27,7 @@ public class MatrixMultiplicationParallel {
             } else {
                 List<Future<?>> tasks = new ArrayList<>(2);
                 for (int i = 0; i < 2; i++) {
+                    // Skipped the for loop (int j) since the result of the multiplication will always have only 1 column
                     tasks.add(executorService.submit(new MatrixAddTask(lhs.split(i, 0), rhs.split(i, 0), sum.split(i, 0), executorService)));
                 }
 
@@ -62,6 +63,7 @@ public class MatrixMultiplicationParallel {
                 Matrix[] term = new Matrix[] { new Matrix(n, rhs.m), new Matrix(n, rhs.m) };
                 for (int i = 0; i < 2; i++) {
                     for (int j = 0; j < 2; j++) {
+                        // Skipped the for loop (int k) since rhs and term[i] will only have 1 column
                         tasks.add(executorService.submit(new MatrixMulTask(lhs.split(j, i), rhs.split(i, 0), term[i].split(j, 0), executorService)));
                     }
                 }

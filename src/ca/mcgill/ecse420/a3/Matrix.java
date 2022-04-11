@@ -1,10 +1,18 @@
 package ca.mcgill.ecse420.a3;
 
+/**
+ * Matrix Class taken from the textbook with some changes
+ */
 public class Matrix {
     double[][] data;
     int rowDisplace, colDisplace;
     int n, m;
 
+    /**
+     * This constructor takes n x m to help initialize the vector
+     * @param n - rows
+     * @param m - cols
+     */
     public Matrix(int n, int m) {
         this.n = n;
         this.m = m;
@@ -12,6 +20,12 @@ public class Matrix {
         data = new double[n][m];
     }
 
+    /**
+     * Same constructor as above but you can set the data directly
+     * @param n - rows
+     * @param m - cols
+     * @param data - data of matrix
+     */
     public Matrix(int n, int m, double[][] data) {
         this.n = n;
         this.m = m;
@@ -35,6 +49,10 @@ public class Matrix {
         data[row + rowDisplace][col + colDisplace] = value;
     }
 
+    /**
+     * Split function used to select which quadrant of matrix you want to return when splitting in 4
+     * This function has been changed to handle the vector case
+     */
     public Matrix split(int i, int j) {
         int newDim = n / 2;
         if (n == m) {
@@ -47,6 +65,9 @@ public class Matrix {
 
     }
 
+    /**
+     * Sequentially add 2 different matrices and store result in this class
+     */
     public void add(Matrix matrixA, Matrix matrixB) {
         for (int i = 0; i < matrixA.n; i++) {
             for (int j = 0; j < matrixA.m; j++) {
@@ -55,6 +76,9 @@ public class Matrix {
         }
     }
 
+    /**
+     * Sequentially multiply 2 different matrices and store result in this class
+     */
     public void multiply(Matrix matrixA, Matrix matrixB) {
         for (int i = 0; i < matrixA.n; i++) {
             for (int j = 0; j < matrixB.m; j++) {
@@ -67,6 +91,9 @@ public class Matrix {
         }
     }
 
+    /**
+     * String representation of the matrix data
+     */
     public String toString() {
         StringBuilder output = new StringBuilder();
 
